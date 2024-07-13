@@ -3,13 +3,16 @@
 # Índice 
 
 - [Introdução](#Introdução)
+- [Link](#Link)
 - [Tecnologias Utilizadas](#Tecnologias-Utilizadas)
 - [Descrição do Projeto](#Descrição-do-Projeto)
 - [Endpoints](#Endpoints)
-- [Link](#Link)
 
 # Introdução
 Este projeto foi desenvolvido em Python e tem como objetivo consumir dados de CEP de APIs externas, armazená-los em um banco de dados local e retornar os dados armazenados em formato JSON para o usuário.
+
+# Link
+A API pode ser utilizada publicamente pela URL https://apidecepbr.squareweb.app, fiquem a vontade utilizar :)
 
 # Tecnologias-Utilizadas
 - Flask: Framework web utilizado para criar a API.
@@ -29,7 +32,4 @@ Este projeto foi desenvolvido em Python e tem como objetivo consumir dados de CE
 - GET /cep/{cep}: Retorna os dados do CEP especificado. Se o CEP não estiver no banco de dados, será consultado nas APIs externas e inserido no banco de dados local.
 - PUT /cep/{cep}/auto_repair: Atualiza os dados do CEP especificado consultando novamente nas APIs externas.
 
-- A documentação Swagger pode ser acessada em http://localhost:5000/apidocs.
-
-# Link
-A API pode ser utilizada publicamente pela URL https://apidecepbr.squareweb.app, fiquem a vontade utilizar :)
+- A documentação Swagger pode ser acessada pelo endpoint /apidocs.
