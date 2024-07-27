@@ -1,20 +1,20 @@
 from app import app
 from flask import jsonify, abort
 from ..controllers.cep_controller import CEPController
-from ..controllers.request_controller import ResquestAPI
+from ..controllers.request_controller import RequestAPI
 from flasgger import swag_from
 
 cep_controller = CEPController()
-resquest_api   = ResquestAPI()
+resquest_api   = RequestAPI()
 
 #Metodos do tipo GET
-@app.route('/cep/<int:cep>', methods=['GET'])
+@app.route('/cep/<string:cep>', methods=['GET'])
 @swag_from({
     'parameters': [
         {
             'name': 'cep',
             'in': 'path',
-            'type': 'integer',
+            'type': 'string',
             'required': True,
             'description': 'O Cep que deverá ser pesquisado'
         }
@@ -63,6 +63,7 @@ resquest_api   = ResquestAPI()
     }
 })
 def traz_cep(cep):
+    cep = cep.replace("-", "")
     result = cep_controller.retorna_cep(cep)
     if result:
         return jsonify({
@@ -75,14 +76,15 @@ def traz_cep(cep):
     else:
         abort(404, description="CEP não encontrado")
 
+
 #Metodos do tipo PUT
-@app.route('/cep/<int:cep>/auto_repair', methods=['PUT'])
+@app.route('/cep/<string:cep>/auto_repair', methods=['PUT'])
 @swag_from({
     'parameters': [
         {
             'name': 'cep',
             'in': 'path',
-            'type': 'integer',
+            'type': 'string',
             'required': True,
             'description': 'O Cep que deverá ser consertado'
         }
@@ -115,6 +117,7 @@ def traz_cep(cep):
     }
 })
 def conserta_cep(cep):
+    cep = cep.replace("-", "")
     result = cep_controller.retorna_cep(cep)
     if not result:
         return jsonify({
@@ -122,8 +125,17 @@ def conserta_cep(cep):
         }), 404
     else:
         cep_controller.deleta_cep(cep)
-        result = resquest_api.resquest_cep(cep)
+        result = resquest_api.request_cep(cep)
         if result:
             return jsonify({
                 'message' : 'CEP atualizado com sucesso!'    
             })
+
+#Exception
+@app.errorhandler(404)
+def page_not_found(e):
+    return jsonify(error="Route not found. You cannot use this route."), 404
+
+@app.errorhandler(405)
+def page_not_found(e):
+    return jsonify(error="The method is not allowed for the requested URL."), 405

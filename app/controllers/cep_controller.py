@@ -10,11 +10,11 @@ class CEPController():
         return novo_cep
     
     def retorna_cep(self, _cep):
-        from .request_controller import ResquestAPI
-        request_api = ResquestAPI()
+        from .request_controller import RequestAPI
+        request_api = RequestAPI()
         cep = CEP.query.get(_cep)
         if not cep:
-            cep = request_api.resquest_cep(_cep)
+            cep = request_api.request_cep(_cep)
         return cep
     
     def atualiza_cep(self, _cep, _estado, _cidade, _bairro, _rua, _atualizacao):

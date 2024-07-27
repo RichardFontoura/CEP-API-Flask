@@ -51,7 +51,7 @@ swagger_template = {
         },
 
     },
-    "host": "localhost:5000", 
+    "host": "localhost:5000",
     "basePath": "/",
     "schemes": [
         "http"
